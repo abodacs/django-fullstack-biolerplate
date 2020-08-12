@@ -1,0 +1,13 @@
+ 
+version: '3.3'
+
+services:
+  backend:
+    build: ./backend
+    image: django-biolerplate-backend
+    stdin_open: false
+    tty: true
+    volumes:
+      - ./backend/:/backend # maps host diretory to internal container directory
+    working_dir: /backend/
+    command: sh entrypoint.sh
