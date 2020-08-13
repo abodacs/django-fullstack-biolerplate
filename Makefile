@@ -13,7 +13,7 @@ run:
 
 
 bash:
-	 docker exec -it django-biolerplate-backend /bin/bash
+	 docker exec -it django-fullstack-biolerplate_backend_1 /bin/bash
 
 logs:
 	COMPOSE_HTTP_TIMEOUT=200 docker-compose -f docker-compose-dev.yml logs -f --tail=70 $(filter-out $@,$(MAKECMDGOALS))

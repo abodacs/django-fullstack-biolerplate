@@ -1,13 +1,31 @@
- 
-version: '3.3'
+version: "3.6"
 
 services:
+  db:
+    image: "postgres:alpine"
+    volumes:
+      - .db:/var/lib/postgresql/data
+
+  broker:
+    image: "rabbitmq:alpine"
+
+  result:
+    image: "redis:alpine"
+  
   backend:
-    build: ./backend
+    build:
+      dockerfile: backend/Dockerfile
+      context: .
     image: django-biolerplate-backend
     stdin_open: false
     tty: true
+    # command: sh entrypoint.sh
+    ports:
+      - "8000:8000"
     volumes:
-      - ./backend/:/backend # maps host diretory to internal container directory
-    working_dir: /backend/
-    command: sh entrypoint.sh
+      - ./:/home/user/app/
+    env_file: backend/.env
+    depends_on:
+      - db
+      - broker
+      - result
