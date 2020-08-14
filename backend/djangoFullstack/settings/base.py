@@ -1,4 +1,4 @@
-# https://docs.djangoproject.com/en/1.10/ref/settings/
+# https://docs.djangoproject.com/en/3.1/ref/settings/
 
 from typing import Dict, List, Tuple, Union
 
@@ -62,8 +62,6 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
-                "common.context_processors.sentry_dsn",
-                "common.context_processors.commit_sha",
             ],
         },
     },
@@ -127,4 +125,4 @@ CELERY_TIMEZONE = TIME_ZONE
 
 # Sentry
 SENTRY_DSN = config("SENTRY_DSN", default="")
-COMMIT_SHA = config("HEROKU_SLUG_COMMIT", default="")
+#COMMIT_SHA = config("HEROKU_SLUG_COMMIT", default="")

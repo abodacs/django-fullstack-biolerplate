@@ -1,28 +1,41 @@
 FROM python:3.8
 
+RUN locale-gen C.UTF-8 || true
+RUN DEBIAN_FRONTEND noninteractive
+# set environment variables
+ENV LANG C.UTF-8
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
+ENV PYTHONIOENCODING utf-8
+ARG ENVIRONMENT=development
 
-RUN groupadd user && useradd --create-home --home-dir /home/user -g user user
-WORKDIR /home/user/app/backend
+
+RUN groupadd user && useradd  -disabled-password  --gecos "" --home /home/appuser -g appuser appuser
+WORKDIR /home/appuser/app/backend
 
 # Install system dependencies
 RUN apt-get update && apt-get install gcc build-essential libpq-dev -y && \
     python3 -m pip install --no-cache-dir pip-tools
 
-# install python dependencies
-ADD *requirements.in /home/user/app/backend/
-RUN pip-compile requirements.in > requirements.txt && \
-    pip-compile dev-requirements.in > dev-requirements.txt
+# set timezone to UTC
+RUN ln -sf /usr/share/zoneinfo/Etc/UTC /etc/localtime
 
-RUN pip install -r requirements.txt && \
-    pip install -r dev-requirements.txt
+
+# REQUIREMENTS
+COPY backend/requirements/ /requirements/
+
+# install python dependencies
+RUN python3 -m pip install -r /requirements/${ENVIRONMENT}.txt
 
 # Clean the house
 RUN apt-get purge libpq-dev -y && apt-get autoremove -y && \
-    rm /var/lib/apt/lists/* rm -rf /var/cache/apt/*
+    rm -fr /var/lib/apt/lists/{apt,dpkg,cache,log} /tmp/* /var/tmp/*
 
-ADD backend/ /home/user/app/backend
+ADD backend/ /home/appuser/app/backend
 
-USER user
-CMD gunicorn djangoFullstack.wsgi --log-file - -b 0.0.0.0:8000 --reload
+USER appuser
+
+EXPOSE 8001
+STOPSIGNAL SIGTERM
+
+CMD uvicorn djangoFullstack.asgi:application --port 8001--reload

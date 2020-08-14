@@ -1,0 +1,18 @@
+-r common.txt
+autopep8
+pep8
+# Debugging tools
+ipdb==0.13.2
+
+# Testing utils
+factory_boy==2.12.0
+freezegun==0.3.10
+coverage
+
+# Tools
+bandit
+black
+isort
+pre-commit
+prospector[with-vulture]
+safety
