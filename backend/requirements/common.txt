@@ -1,10 +1,19 @@
-django==3.1
+# Core
+Django==3.1
+uvicorn
 celery[redis]==4.4
+pytz==2020.1
+
+
+# Model Tools
 django-model-utils==4.0
 python-decouple==3.3
+
+# For the persistence stores
 psycopg2-binary==2.8.5
-django-log-request-id
 dj-database-url==0.5.0
-pytz==2020.1
+
+
+# Tracking errors
+django-log-request-id
 sentry-sdk==0.16.4
-uvicorn

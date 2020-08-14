@@ -8,7 +8,7 @@ from .managers import UserManager
 
 
 class User(AbstractBaseUser, PermissionsMixin, IndexedTimeStampedModel):
-    email = models.EmailField(max_length=255, unique=True)
+    user_name = models.CharField(max_length=255, unique=True)
     is_staff = models.BooleanField(
         default=False, help_text=_("Designates whether the user can log into this admin " "site.")
     )
@@ -22,13 +22,13 @@ class User(AbstractBaseUser, PermissionsMixin, IndexedTimeStampedModel):
 
     objects = UserManager()
 
-    USERNAME_FIELD = "email"
+    USERNAME_FIELD = "user_name"
 
     def get_full_name(self):
-        return self.email
+        return self.user_name
 
     def get_short_name(self):
-        return self.email
+        return self.user_name
 
     def __str__(self):
-        return self.email
+        return str(self.user_name)

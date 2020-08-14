@@ -1,8 +1,8 @@
 import sentry_sdk
-from decouple import Csv, config
+from decouple import Csv
 from dj_database_url import parse as db_url
 from sentry_sdk.integrations.django import DjangoIntegration
-from djangoFullstack.settings import BASE_DIR, config
+from djangoFullstack.settings import config
 
 from .base import *  # noqa
 
@@ -44,8 +44,6 @@ SECURE_CONTENT_TYPE_NOSNIFF = True
 SECURE_BROWSER_XSS_FILTER = True
 X_FRAME_OPTIONS = "DENY"
 
-# Webpack
-WEBPACK_LOADER["DEFAULT"]["CACHE"] = True
 
 # Celery
 CELERY_BROKER_URL = config("REDIS_URL")
@@ -108,4 +106,4 @@ LOGGING = {
 JS_REVERSE_EXCLUDE_NAMESPACES = ["admin"]
 
 # Sentry
-sentry_sdk.init(dsn=SENTRY_DSN, integrations=[DjangoIntegration()], release=COMMIT_SHA)
+sentry_sdk.init(dsn=SENTRY_DSN, integrations=[DjangoIntegration()],)

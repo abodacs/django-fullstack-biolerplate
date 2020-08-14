@@ -15,7 +15,9 @@ WORKDIR /home/appuser/app/backend
 
 # Install system dependencies
 RUN apt-get update && apt-get install gcc build-essential libpq-dev -y && \
-    python3 -m pip install --no-cache-dir pip-tools
+    apt-get install python-dev  python-pip -y && \
+    apt-get install python3-dev python3-pip python3-venv python3-wheel -y && \
+    python3 -m pip install wheel
 
 # set timezone to UTC
 RUN ln -sf /usr/share/zoneinfo/Etc/UTC /etc/localtime
@@ -25,7 +27,7 @@ RUN ln -sf /usr/share/zoneinfo/Etc/UTC /etc/localtime
 COPY backend/requirements/ /requirements/
 
 # install python dependencies
-RUN python3 -m pip install -r /requirements/${ENVIRONMENT}.txt
+RUN python3 -m pip install --user --default-timeout=100 -r /requirements/${ENVIRONMENT}.txt
 
 # Clean the house
 RUN apt-get purge libpq-dev -y && apt-get autoremove -y && \
@@ -38,4 +40,4 @@ USER appuser
 EXPOSE 8001
 STOPSIGNAL SIGTERM
 
-CMD uvicorn djangoFullstack.asgi:application --port 8001--reload
+CMD uvicorn djangoFullstack.asgi:application --port 8001 --reload

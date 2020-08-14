@@ -1,10 +1,11 @@
 # https://docs.djangoproject.com/en/3.1/ref/settings/
 
-from typing import Dict, List, Tuple, Union
+from typing import Tuple
 
 import os
-
+from django.utils.translation import ugettext_lazy as ugt
 from djangoFullstack.settings import BASE_DIR, config
+from dj_database_url import parse as db_url
 
 
 def base_dir_join(*args):
@@ -75,23 +76,20 @@ AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",},
     {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",},
 ]
+
+# Email
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': config('POSTGRES_DB'),
-        'USER': config('POSTGRES_USER'),
-        'PASSWORD': config('POSTGRES_PASSWORD'),
-        'HOST': config('DJANGO_DATABASE_HOST'),
-        'PORT': config('DJANGO_DATABASE_PORT', cast=int),
-        'CONN_MAX_AGE': config('CONN_MAX_AGE', cast=int, default=60),
-        'OPTIONS': {
-            'connect_timeout': 10,
-        },
-    },
+    "default": config("DATABASE_URL", cast=db_url),
 }
+DATABASES['default']['ENGINE'] = 'django.db.backends.postgresql_psycopg2'
+DATABASES['default']['OPTIONS'] = {'connect_timeout': 10,  }
+DATABASES['default']['CONN_MAX_AGE'] = config('POSTGRES_CONN_MAX_AGE', cast=int, default=60)
+
 
 
 # Internationalization
@@ -106,6 +104,7 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+
 LANGUAGES = (
     ('en', ugt('English')),
     ('ar', ugt('Arabic')),

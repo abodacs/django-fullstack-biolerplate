@@ -3,7 +3,7 @@
 import os
 import sys
 
-from decouple import config
+from djangoFullstack.settings import BASE_DIR, config
 
 
 if __name__ == "__main__":
@@ -18,11 +18,9 @@ if __name__ == "__main__":
         os.environ.setdefault("DJANGO_SETTINGS_MODULE", "djangoFullstack.settings.test")
     else:
         if settings_module is None:
-            print(
-                "Error: no DJANGO_SETTINGS_MODULE found. Will NOT start devserver. "
+            print("Error: no DJANGO_SETTINGS_MODULE found. Will NOT start devserver. "
                 "Remember to create .env file at project root. "
-                "Check README for more info."
-            )
+                "Check README for more info.")
             sys.exit(1)
         os.environ.setdefault("DJANGO_SETTINGS_MODULE", settings_module)
 
