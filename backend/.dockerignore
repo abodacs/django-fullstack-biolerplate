@@ -1,0 +1,13 @@
+.git/objects/*
+/backend/static
+/db.sqlite3
+*.egg-info
+*.sql
+/.venv
+/.env
+/.docker-env
+Dockerfile
+Pipfile.log
+/dist
+.DS_Store
+.idea
