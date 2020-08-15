@@ -2,10 +2,23 @@
 
 import os
 import sys
-from decouple import config
+from pathlib import PurePath
+from decouple import AutoConfig
+BASE_DIR = PurePath(__file__).parent
+config = AutoConfig(search_path=BASE_DIR)
+
 
 if __name__ == "__main__":
     settings_module = config("DJANGO_SETTINGS_MODULE", default=None)
+
+    from django.conf import settings
+    if settings.DEBUG:
+        if os.environ.get('RUN_MAIN') or os.environ.get('WERKZEUG_RUN_MAIN'):
+            import ptvsd
+
+            ptvsd.enable_attach(address=('0.0.0.0', 3000)
+            ptvsd.wait_for_attach())
+            print('Attached!')
 
     if sys.argv[1] == "test":
         if settings_module:
@@ -17,8 +30,8 @@ if __name__ == "__main__":
     else:
         if settings_module is None:
             print("Error: no DJANGO_SETTINGS_MODULE found. Will NOT start devserver. "
-                "Remember to create .env file at project root. "
-                "Check README for more info.")
+            "Remember to create .env file at project root. "
+            "Check README for more info.")
             sys.exit(1)
         os.environ.setdefault("DJANGO_SETTINGS_MODULE", settings_module)
 

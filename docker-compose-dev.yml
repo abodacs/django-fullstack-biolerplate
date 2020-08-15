@@ -4,15 +4,13 @@ services:
   db:
     image: "postgres:12.4"
     hostname: postgres
-    environment:
-      - "POSTGRES_HOST_AUTH_METHOD=trust"
     ports:
       - 5432
     volumes:
       - postgres_data:/var/lib/postgresql/data:z
       - ./containers_data/db/postgres/backups:/backups:z
       - ./containers_data/db/postgres/logs:/var/log/postgresql:z
-    env_file: config/.env
+    env_file: backend/.env
     networks:
       - backend
 
@@ -31,15 +29,13 @@ services:
       dockerfile: backend/Dockerfile
       context: .
     image: django-biolerplate-backend
-    stdin_open: false
     tty: true
-    # command: sh entrypoint.sh
     ports:
-      - "8001:8001"
+      - 8001:8001
+      - 3000:3000
     volumes:
-      - ./backend:/home/appuser/app/backend
-      - .cache:/home/dev/.cache:z
-    env_file: config/.env
+      - ./backend:/home/app/web/backend/
+    env_file: backend/.env
     depends_on:
       - db
       - broker

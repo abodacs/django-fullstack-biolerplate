@@ -1,7 +1,9 @@
 -r common.txt
+
 # Debugging tools
 ipdb==0.13.2
 ipython==7.17.0
+ptvsd==4.3.2
 
 
 # Testing

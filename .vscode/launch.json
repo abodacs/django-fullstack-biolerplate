@@ -7,11 +7,15 @@
         {
             "name": "Python: Django",
             "type": "python",
-            "request": "launch",
-            "program": "${workspaceFolder}/backend/manage.py",
-            "args": [
-                "runserver",
+            "request": "attach",
+            "pathMappings": [
+              {
+                "localRoot": "${workspaceFolder}/backend",
+                "remoteRoot": "/home/app/web/backend"
+              }
             ],
+            "port": 3000,
+            "host": "127.0.0.1",
             "django": true
         }
     ]
