@@ -1,13 +1,15 @@
 # Core
 Django==3.1
-uvicorn
+uvicorn==0.11.8
+gunicorn==20.0.4
 celery[redis]==4.4
 pytz==2020.1
 
+# 12 Factor
+python-decouple==3.3
 
 # Model Tools
 django-model-utils==4.0
-python-decouple==3.3
 
 # For the persistence stores
 psycopg2-binary==2.8.5

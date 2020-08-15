@@ -4,9 +4,18 @@ from typing import Tuple
 
 import os
 from django.utils.translation import ugettext_lazy as ugt
-from djangoFullstack.settings import BASE_DIR, config
 from dj_database_url import parse as db_url
+from pathlib import PurePath
 
+from decouple import AutoConfig
+
+# Build paths inside the project like this: BASE_DIR.joinpath('some')
+# `pathlib` is better than writing: dirname(dirname(dirname(__file__)))
+BASE_DIR = PurePath(__file__).parent.parent.parent.parent
+
+# Loading `.env` files
+# See docs: https://gitlab.com/mkleehammer/autoconfig
+config = AutoConfig(search_path=BASE_DIR.joinpath('config'))
 
 def base_dir_join(*args):
     return os.path.join(BASE_DIR, *args)
@@ -86,7 +95,8 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 DATABASES = {
     "default": config("DATABASE_URL", cast=db_url),
 }
-DATABASES['default']['ENGINE'] = 'django.db.backends.postgresql_psycopg2'
+DATABASES['default']['ENGINE'] = config('django.db.backends.postgresql_psycopg2',
+ default="django.db.backends.sqlite3")
 DATABASES['default']['OPTIONS'] = {'connect_timeout': 10,  }
 DATABASES['default']['CONN_MAX_AGE'] = config('POSTGRES_CONN_MAX_AGE', cast=int, default=60)
 

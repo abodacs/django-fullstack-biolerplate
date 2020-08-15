@@ -2,15 +2,29 @@ version: "3.6"
 
 services:
   db:
-    image: "postgres:alpine"
+    image: "postgres:12.4"
+    hostname: postgres
+    environment:
+      - "POSTGRES_HOST_AUTH_METHOD=trust"
+    ports:
+      - 5432
     volumes:
-      - .db:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data:z
+      - ./containers_data/db/postgres/backups:/backups:z
+      - ./containers_data/db/postgres/logs:/var/log/postgresql:z
+    env_file: config/.env
+    networks:
+      - backend
 
   broker:
     image: "rabbitmq:alpine"
+    networks:
+      - backend
 
   result:
     image: "redis:alpine"
+    networks:
+      - backend
   
   backend:
     build:
@@ -21,11 +35,21 @@ services:
     tty: true
     # command: sh entrypoint.sh
     ports:
-      - "8000:8000"
+      - "8001:8001"
     volumes:
-      - ./:/home/user/app/
-    env_file: backend/.env
+      - ./backend:/home/appuser/app/backend
+      - .cache:/home/dev/.cache:z
+    env_file: config/.env
     depends_on:
       - db
       - broker
       - result
+    networks:
+      - backend
+
+networks:
+  backend:
+
+volumes:
+  postgres_data:
+    driver: local

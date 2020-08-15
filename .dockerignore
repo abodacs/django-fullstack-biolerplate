@@ -14,3 +14,4 @@ Pipfile.log
 /dist
 .DS_Store
 .idea
+containers_data
