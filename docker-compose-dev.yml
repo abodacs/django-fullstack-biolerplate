@@ -3,7 +3,6 @@ version: "3.6"
 services:
   db:
     image: "postgres:12.4"
-    hostname: postgres
     ports:
       - 5432
     volumes:
@@ -23,7 +22,7 @@ services:
     image: "redis:alpine"
     networks:
       - backend
-  
+
   backend:
     build:
       dockerfile: backend/Dockerfile
