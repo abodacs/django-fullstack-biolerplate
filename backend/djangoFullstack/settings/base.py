@@ -27,26 +27,37 @@ SECURE_HSTS_PRELOAD = True
 
 DEBUG = True
 
-SECRET_KEY = config('DJANGO_SECRET_KEY')
+SECRET_KEY = config("DJANGO_SECRET_KEY")
 
 ADMINS = (("Admin", "foo@example.com"),)
 
-AUTH_USER_MODEL = "users.User"
 
 ALLOWED_HOSTS = ["localhost", "0.0.0.0", "127.0.0.1"]
 
-INSTALLED_APPS: Tuple[str, ...] = (
-    "exampleapp.apps.ExampleappConfig",
-    "django.contrib.admin",
-    "django.contrib.auth",
-    "django.contrib.contenttypes",
-    "django.contrib.sessions",
-    "django.contrib.messages",
-    "django.contrib.staticfiles",
-
-    "common",
-    "users",
+# APP CONFIGURATION
+# ------------------------------------------------------------------------------
+DJANGO_APPS: Tuple[str, ...] = (
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'django.contrib.admin',
 )
+
+LOCAL_APPS: Tuple[str, ...] = (
+    'apps.users',
+)
+
+THIRD_PARTY_APPS: Tuple[str, ...] = (
+    # 'rest_framework',
+    # 'django_extensions',
+)
+
+# See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
+INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
+
+AUTH_USER_MODEL = "users.User"
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -79,14 +90,14 @@ TEMPLATES = [
 ASGI_APPLICATION = "djangoFullstack.asgi.application"
 
 AUTH_PASSWORD_VALIDATORS = [
-    {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator", },
-    {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator", },
-    {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator", },
-    {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator", },
+    {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",},
+    {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",},
+    {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",},
+    {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",},
 ]
 
 # Email
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
@@ -94,8 +105,8 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 DATABASES = {
     "default": config("DATABASE_URL", cast=db_url),
 }
-DATABASES['default']['ENGINE'] = config('DATABASE_ENGINE', cast=str, default=None)
-DATABASES['default']['CONN_MAX_AGE'] = config('POSTGRES_CONN_MAX_AGE', cast=int, default=60)
+DATABASES["default"]["ENGINE"] = config("DATABASE_ENGINE", cast=str, default=None)
+DATABASES["default"]["CONN_MAX_AGE"] = config("POSTGRES_CONN_MAX_AGE", cast=int, default=60)
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
@@ -111,8 +122,8 @@ USE_L10N = True
 USE_TZ = True
 
 LANGUAGES = (
-    ('en', ugt('English')),
-    ('ar', ugt('Arabic')),
+    ("en", ugt("English")),
+    ("ar", ugt("Arabic")),
 )
 
 STATICFILES_DIRS = (base_dir_join("../frontend"),)

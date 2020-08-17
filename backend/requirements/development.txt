@@ -4,19 +4,3 @@
 ipdb==0.13.2
 ipython==7.17.0
 ptvsd==4.3.2
-
-
-# Testing
-factory_boy==2.12.0
-freezegun==0.3.10
-coverage
-
-# Tools
-autopep8
-pep8
-bandit
-black
-isort
-pre-commit
-prospector
-safety

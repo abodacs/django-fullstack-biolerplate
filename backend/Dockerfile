@@ -3,10 +3,13 @@ FROM python:3.8
 RUN locale-gen C.UTF-8 || true
 # set environment variables
 ENV LANG C.UTF-8
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
-ENV PYTHONIOENCODING utf-8
-ENV DEBIAN_FRONTEND noninteractive
+ENV PYTHONFAULTHANDLER=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONHASHSEED=random \
+    PYTHONUNBUFFERED=1 \
+    PYTHONIOENCODING=utf-8\
+    DEBIAN_FRONTEND=noninteractive
+
 ARG ENVIRONMENT=development
 
 # create the appropriate directories

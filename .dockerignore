@@ -13,5 +13,5 @@ Dockerfile
 Pipfile.log
 /dist
 .DS_Store
-.idea
+.idea/*
 containers_data

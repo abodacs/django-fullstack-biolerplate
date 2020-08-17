@@ -9,6 +9,7 @@ from .managers import UserManager
 
 class User(AbstractBaseUser, PermissionsMixin, IndexedTimeStampedModel):
     user_name = models.CharField(max_length=255, unique=True)
+    name = models.CharField(verbose_name='name', max_length=64, default='name')
     is_staff = models.BooleanField(
         default=False, help_text=_("Designates whether the user can log into this admin " "site.")
     )
@@ -22,6 +23,12 @@ class User(AbstractBaseUser, PermissionsMixin, IndexedTimeStampedModel):
 
     objects = UserManager()
 
+    class Meta:
+        verbose_name = 'User'
+        verbose_name_plural = 'Users'
+
+    # Fields settings
+    EMAIL_FIELD = 'email'
     USERNAME_FIELD = "user_name"
 
     def get_full_name(self):
@@ -31,4 +38,4 @@ class User(AbstractBaseUser, PermissionsMixin, IndexedTimeStampedModel):
         return self.user_name
 
     def __str__(self):
-        return str(self.user_name)
+        return str(self.name or self.user_name)
