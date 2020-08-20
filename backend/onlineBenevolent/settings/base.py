@@ -10,6 +10,7 @@ from django.utils.translation import ugettext_lazy as ugt
 
 # Build paths inside the project like this: BASE_DIR.joinpath('some')
 # `pathlib` is better than writing: dirname(dirname(dirname(__file__)))
+# backend/
 BASE_DIR = PurePath(__file__).parent.parent.parent.parent
 
 # Loading `.env` files
@@ -46,7 +47,9 @@ DJANGO_APPS: Tuple[str, ...] = (
 )
 
 LOCAL_APPS: Tuple[str, ...] = (
+    'common',
     'apps.users',
+    'apps.meta',
 )
 
 THIRD_PARTY_APPS: Tuple[str, ...] = (
@@ -69,7 +72,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-ROOT_URLCONF = "djangoFullstack.urls"
+ROOT_URLCONF = "onlineBenevolent.urls"
 
 TEMPLATES = [
     {
@@ -87,7 +90,7 @@ TEMPLATES = [
     },
 ]
 
-ASGI_APPLICATION = "djangoFullstack.asgi.application"
+ASGI_APPLICATION = "onlineBenevolent.asgi.application"
 
 AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",},

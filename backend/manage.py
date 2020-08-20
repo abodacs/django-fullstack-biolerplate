@@ -15,9 +15,9 @@ if __name__ == "__main__":
         if settings_module:
             print(
                 "Ignoring config('DJANGO_SETTINGS_MODULE') because it's test. "
-                "Using 'djangoFullstack.settings.test'"
+                "Using 'onlineBenevolent.settings.test'"
             )
-        os.environ.setdefault("DJANGO_SETTINGS_MODULE", "djangoFullstack.settings.test")
+        os.environ.setdefault("DJANGO_SETTINGS_MODULE", "onlineBenevolent.settings.test")
     else:
         if settings_module is None:
             print(

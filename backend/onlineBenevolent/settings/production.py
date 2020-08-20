@@ -1,11 +1,8 @@
 import sentry_sdk
 from decouple import Csv
-from dj_database_url import parse as db_url
 from sentry_sdk.integrations.django import DjangoIntegration
-from djangoFullstack.settings import config
 
 from .base import *  # noqa
-
 
 DEBUG = False
 
@@ -44,7 +41,6 @@ SECURE_CONTENT_TYPE_NOSNIFF = True
 SECURE_BROWSER_XSS_FILTER = True
 X_FRAME_OPTIONS = "DENY"
 
-
 # Celery
 CELERY_BROKER_URL = config("REDIS_URL")
 CELERY_RESULT_BACKEND = config("REDIS_URL")
@@ -78,7 +74,7 @@ LOGGING = {
         },
     },
     "handlers": {
-        "null": {"class": "logging.NullHandler",},
+        "null": {"class": "logging.NullHandler", },
         "mail_admins": {
             "level": "ERROR",
             "class": "django.utils.log.AdminEmailHandler",
@@ -93,8 +89,8 @@ LOGGING = {
     },
     "loggers": {
         "": {"handlers": ["console"], "level": "INFO"},
-        "django.security.DisallowedHost": {"handlers": ["null"], "propagate": False,},
-        "django.request": {"handlers": ["mail_admins"], "level": "ERROR", "propagate": True,},
+        "django.security.DisallowedHost": {"handlers": ["null"], "propagate": False, },
+        "django.request": {"handlers": ["mail_admins"], "level": "ERROR", "propagate": True, },
         "log_request_id.middleware": {
             "handlers": ["console"],
             "level": "DEBUG",

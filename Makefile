@@ -7,6 +7,8 @@ build:
 stop:
 	docker-compose -f docker-compose-dev.yml stop $(filter-out $@,$(MAKECMDGOALS))
 
+activate:
+	source $HOME/online_benevolent/bin/activate
 
 run:
 	docker-compose -f docker-compose-dev.yml run --rm  $(filter-out $@,$(MAKECMDGOALS))
@@ -21,6 +23,9 @@ logs:
 down:
 	COMPOSE_HTTP_TIMEOUT=200 docker-compose -f docker-compose-dev.yml down
 
+
+psql:
+	docker-compose -f docker-compose-dev.yml run --rm db bash
 
 install-pre-commit: install-test-requirements
 	pre-commit install --install-hooks

@@ -4,10 +4,10 @@ from django.utils.text import slugify
 from django.utils.translation import ugettext_lazy as _
 
 
-class ProjectClass(models.Model, IndexedTimeStampedModel):
+class ProjectClass(IndexedTimeStampedModel):
     name = models.CharField(_("Name"), max_length=128)
     slug = models.SlugField(
-        _("Slug"), max_length=128, unique=True, editable=False, populate_from="name"
+        _("Slug"), max_length=128, unique=True, editable=False,
     )
     YEARLY, SEASONAL, MONTHLY, MonthlyHijri = (
         "Yearly",
@@ -37,8 +37,12 @@ class ProjectClass(models.Model, IndexedTimeStampedModel):
         return self.name
 
 
-class Problem(models.Model, IndexedTimeStampedModel):
+class Problem(IndexedTimeStampedModel):
     name = models.CharField(_("Name"), max_length=128)
+    order = models.PositiveSmallIntegerField(
+        verbose_name=_('order the field in the app'),
+        default=1,
+    )
 
     class Meta:
         app_label = "meta"
@@ -49,8 +53,12 @@ class Problem(models.Model, IndexedTimeStampedModel):
         return self.name
 
 
-class Place(models.Model, IndexedTimeStampedModel):
+class Place(IndexedTimeStampedModel):
     name = models.CharField(_("Name"), max_length=128)
+    order = models.PositiveSmallIntegerField(
+        verbose_name=_('order the field in the app'),
+        default=1,
+    )
 
     class Meta:
         app_label = "meta"

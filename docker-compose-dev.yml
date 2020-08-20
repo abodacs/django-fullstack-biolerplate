@@ -1,14 +1,17 @@
 version: "3.6"
 
 services:
-  db:
-    image: "postgres:12.4"
+  postgres:
+    build:
+      context: ./compose/postgres
+    image: django-biolerplate-db
     ports:
       - 5432
     volumes:
-      - postgres_data:/var/lib/postgresql/data:z
+      - online_benevolent_data:/var/lib/postgresql/data:z
       - ./containers_data/db/postgres/backups:/backups:z
       - ./containers_data/db/postgres/logs:/var/log/postgresql:z
+    restart: unless-stopped
     env_file: backend/.env
     networks:
       - backend
@@ -36,7 +39,7 @@ services:
       - ./backend:/home/app/web/backend/
     env_file: backend/.env
     depends_on:
-      - db
+      - postgres
       - broker
       - result
     networks:
@@ -46,5 +49,5 @@ networks:
   backend:
 
 volumes:
-  postgres_data:
+  online_benevolent_data:
     driver: local

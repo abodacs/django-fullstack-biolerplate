@@ -15,5 +15,10 @@ class Project(models.Model, IndexedTimeStampedModel):
         help_text=_("Long description for the Project"),
     )
 
+    class Meta:
+        abstract = True
+        app_label = "projects"
+
     def __str__(self):
         return self.name
+
