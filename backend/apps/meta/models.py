@@ -1,14 +1,13 @@
-from common.models import IndexedTimeStampedModel
 from django.db import models
 from django.utils.text import slugify
 from django.utils.translation import ugettext_lazy as _
 
+from common.models import IndexedTimeStampedModel
+
 
 class ProjectClass(IndexedTimeStampedModel):
     name = models.CharField(_("Name"), max_length=128)
-    slug = models.SlugField(
-        _("Slug"), max_length=128, unique=True, editable=False,
-    )
+    slug = models.SlugField(_("Slug"), max_length=128, unique=True, editable=False,)
     YEARLY, SEASONAL, MONTHLY, MonthlyHijri = (
         "Yearly",
         "Seasonal",
@@ -29,6 +28,7 @@ class ProjectClass(IndexedTimeStampedModel):
         super().save(*args, **kwargs)
 
     class Meta:
+        ordering = ("name",)
         app_label = "meta"
         verbose_name = _("ProjectClass")
         verbose_name_plural = _("ProjectClasses")
@@ -40,11 +40,14 @@ class ProjectClass(IndexedTimeStampedModel):
 class Problem(IndexedTimeStampedModel):
     name = models.CharField(_("Name"), max_length=128)
     order = models.PositiveSmallIntegerField(
-        verbose_name=_('order the field in the app'),
-        default=1,
+        verbose_name=_("order the field in the app"), default=1,
     )
 
     class Meta:
+        ordering = (
+            "order",
+            "name",
+        )
         app_label = "meta"
         verbose_name = _("Problem")
         verbose_name_plural = _("Problems")
@@ -56,11 +59,14 @@ class Problem(IndexedTimeStampedModel):
 class Place(IndexedTimeStampedModel):
     name = models.CharField(_("Name"), max_length=128)
     order = models.PositiveSmallIntegerField(
-        verbose_name=_('order the field in the app'),
-        default=1,
+        verbose_name=_("order the field in the app"), default=1,
     )
 
     class Meta:
+        ordering = (
+            "order",
+            "name",
+        )
         app_label = "meta"
         verbose_name = _("Place")
         verbose_name_plural = _("Places")

@@ -13,9 +13,15 @@ activate:
 run:
 	docker-compose -f docker-compose-dev.yml run --rm  $(filter-out $@,$(MAKECMDGOALS))
 
-
 bash:
-	 docker exec -it django-fullstack-biolerplate_backend_1 /bin/bash
+	docker-compose  -f docker-compose-dev.yml run --rm backend bash
+
+makemigrations:
+	docker-compose -f docker-compose-dev.yml  run --rm backend python manage.py makemigrations $(filter-out $@,$(MAKECMDGOALS))
+
+migrate:
+	docker-compose -f docker-compose-dev.yml  run --rm backend python manage.py migrate $(filter-out $@,$(MAKECMDGOALS))
+
 
 logs:
 	COMPOSE_HTTP_TIMEOUT=200 docker-compose -f docker-compose-dev.yml logs -f --tail=70 $(filter-out $@,$(MAKECMDGOALS))
@@ -25,7 +31,7 @@ down:
 
 
 psql:
-	docker-compose -f docker-compose-dev.yml run --rm db bash
+	docker-compose -f docker-compose-dev.yml run --rm postgres bash
 
 install-pre-commit: install-test-requirements
 	pre-commit install --install-hooks

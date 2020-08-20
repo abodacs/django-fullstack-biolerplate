@@ -1,33 +1,35 @@
 from django.contrib.auth.models import BaseUserManager
-
 from django.utils import timezone
 
 
 class UserManager(BaseUserManager):
-
     @classmethod
     def normalize(cls, value):
-        value = value or ''
+        value = value or ""
         return value.strip().lower()
 
     def _create_user(self, user_name, password, is_staff, is_superuser, **extra_fields):
         """
         Creates and saves a User with the given username and password.
         """
-        user = self.model(email=self.normalize(user_name),
-                          is_active=True,
-                          is_staff=is_staff,
-                          is_superuser=is_superuser,
-                          last_login=timezone.now(),
-                          **extra_fields)
+        user = self.model(
+            username=self.normalize(user_name),
+            is_active=True,
+            is_staff=is_staff,
+            is_superuser=is_superuser,
+            last_login=timezone.now(),
+            **extra_fields
+        )
         user.set_password(password)
         user.save(using=self._db)
         return user
 
     def create_user(self, user_name=None, password=None, **extra_fields):
-        is_staff = extra_fields.pop('is_staff', False)
-        is_superuser = extra_fields.pop('is_superuser', False)
+        is_staff = extra_fields.pop("is_staff", False)
+        is_superuser = extra_fields.pop("is_superuser", False)
         return self._create_user(user_name, password, is_staff, is_superuser, **extra_fields)
 
     def create_superuser(self, user_name, password, **extra_fields):
-        return self._create_user(user_name, password, is_staff=True, is_superuser=True, **extra_fields)
+        return self._create_user(
+            user_name, password, is_staff=True, is_superuser=True, **extra_fields
+        )

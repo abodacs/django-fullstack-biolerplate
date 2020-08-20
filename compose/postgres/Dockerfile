@@ -1,6 +1,6 @@
 FROM postgres:12.4
+#ENV POSTGRES_PASSWORD postgres
+#ENV POSTGRES_DB testdb
 
-#COPY ./init-user-db.sh /usr/local/bin/
-#RUN chmod +x /usr/local/bin/init-user-db.sh
-COPY ./init.sql /docker-entrypoint-initdb.d/init.sql
-CMD ["docker-entrypoint.sh", "postgres"]
+ENTRYPOINT ["sh", "/docker-entrypoint.sh"]
+CMD ["postgres"]

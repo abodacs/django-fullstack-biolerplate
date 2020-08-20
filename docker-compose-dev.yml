@@ -2,17 +2,23 @@ version: "3.6"
 
 services:
   postgres:
-    build:
-      context: ./compose/postgres
-    image: django-biolerplate-db
+    image: postgres:12.4
     ports:
-      - 5432
+      - 5432:5432
     volumes:
       - online_benevolent_data:/var/lib/postgresql/data:z
       - ./containers_data/db/postgres/backups:/backups:z
       - ./containers_data/db/postgres/logs:/var/log/postgresql:z
     restart: unless-stopped
     env_file: backend/.env
+    networks:
+      - backend
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
     networks:
       - backend
 

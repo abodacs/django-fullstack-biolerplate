@@ -1,6 +1,5 @@
 FROM python:3.8
 
-RUN locale-gen C.UTF-8 || true
 # set environment variables
 ENV LANG C.UTF-8
 ENV PYTHONFAULTHANDLER=1 \

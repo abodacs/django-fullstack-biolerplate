@@ -1,30 +1,27 @@
 from django.contrib import admin
-from django.contrib.auth.admin import UserAdmin
+from django.contrib.auth import admin as auth_admin
+from django.contrib.auth import get_user_model
 from django.utils.translation import ugettext_lazy as _
 
-from .models import User
+from apps.users.forms import UserChangeForm, UserCreationForm
 
 
-class CustomUserAdmin(UserAdmin):
-    list_display = ("id", "user_name", "created_at", "updated_at")
-    list_filter = ("is_active", "is_staff", "groups")
-    search_fields = ("user_name",)
-    ordering = ("user_name",)
-    filter_horizontal = (
-        "groups",
-        "user_permissions",
-    )
+User = get_user_model()
 
+
+@admin.register(User)
+class UserAdmin(auth_admin.UserAdmin):
+    form = UserChangeForm
+    add_form = UserCreationForm
     fieldsets = (
-        (None, {"fields": ("user_name", "password")}),
-        (
-            _("Permissions"),
-            {"fields": ("is_active", "is_staff", "is_superuser", "groups", "user_permissions")},
-        ),
+        (None, {"fields": ("username", "password")}),
+        (_("Personal info"), {"fields": ("name", "type",)}),
+        (_("Permissions"), {"fields": ("is_active", "is_superuser",),}),
+        (_("Important dates"), {"fields": ("last_login",)}),
     )
-    add_fieldsets = (
-        (None, {"classes": ("wide",), "fields": ("user_name", "password1", "password2")}),
-    )
-
-
-admin.site.register(User, CustomUserAdmin)
+    list_display = [
+        "username",
+        "name",
+        "type",
+    ]
+    search_fields = ["name"]
