@@ -14,7 +14,7 @@ DATABASES = {
 }
 DATABASES["default"]["ATOMIC_REQUESTS"] = True
 
-ALLOWED_HOSTS = config("ALLOWED_HOSTS", cast=Csv())
+ALLOWED_HOSTS = config("ALLOWED_HOSTS", default=[], cast=Csv())
 
 STATIC_ROOT = base_dir_join("staticfiles")
 STATIC_URL = "/static/"

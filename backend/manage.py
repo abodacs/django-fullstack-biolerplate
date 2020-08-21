@@ -2,12 +2,9 @@
 
 import os
 import sys
-from pathlib import PurePath
 
-from decouple import AutoConfig
+from decouple import config
 
-BASE_DIR = PurePath(__file__).parent
-config = AutoConfig(search_path=BASE_DIR)
 
 if __name__ == "__main__":
     settings_module = config("DJANGO_SETTINGS_MODULE", default=None)

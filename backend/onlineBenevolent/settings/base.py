@@ -6,7 +6,7 @@ from typing import Tuple
 
 from django.utils.translation import ugettext_lazy as ugt
 
-from decouple import AutoConfig
+from decouple import config
 from dj_database_url import parse as db_url
 
 
@@ -14,10 +14,6 @@ from dj_database_url import parse as db_url
 # `pathlib` is better than writing: dirname(dirname(dirname(__file__)))
 # backend/
 BASE_DIR = PurePath(__file__).parent.parent.parent.parent
-
-# Loading `.env` files
-# See docs: https://gitlab.com/mkleehammer/autoconfig
-config = AutoConfig(search_path=BASE_DIR)
 
 
 def base_dir_join(*args):
@@ -33,7 +29,6 @@ DEBUG = True
 SECRET_KEY = config("DJANGO_SECRET_KEY")
 
 ADMINS = (("Admin", "foo@example.com"),)
-
 
 ALLOWED_HOSTS = ["localhost", "0.0.0.0", "127.0.0.1"]
 
