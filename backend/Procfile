@@ -1,1 +1,1 @@
-web: gunicorn onlineBenevolent.asgi:application --timeout 120 --bind 0.0.0.0:$PORT --log-file -
+web:gunicorn -k uvicorn.workers.UvicornWorker onlineBenevolent.asgi:application --bind "0.0.0.0:8080" --log-level debug
