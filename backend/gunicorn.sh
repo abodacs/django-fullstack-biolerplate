@@ -3,8 +3,8 @@
 # Exit immediately if a command exits with a non-zero status.
 set -e
 
-#echo "Collect static"
-#python manage.py collectstatic --noinput
+echo "Collect static"
+python manage.py collectstatic --noinput
 
 
 echo "Compile Messages"

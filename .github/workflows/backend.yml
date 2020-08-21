@@ -4,18 +4,35 @@ name: CI
 
 # Controls when the action will run. Triggers the workflow on push or pull request
 # events but only for the master branch
-on:
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
-    paths:
-      - "backend/**"
-      - ".github/workflows/backend.yml"
+on: [push, pull_request]
+  branches:
+    - master
+  paths:
+    - "backend/**"
+    - ".github/workflows/backend.yml"
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
+
+  create-envfile:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Make Backend envfile
+        uses: SpicyPizza/create-envfile@v1
+        with:
+          envkey_DEBUG: false
+          envkey_ALLOWED_HOSTS: ${{ secrets.ALLOWED_HOSTS }}
+          envkey_DATABASE_ENGINE : "django.db.backends.postgresql_psycopg2"
+          envkey_POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+          envkey_POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+          envkey_POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+          envkey_POSTGRES_CONN_MAX_AGE: ${{ secrets.POSTGRES_CONN_MAX_AGE }}
+          envkey_DJANGO_SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
+          envkey_DJANGO_DATABASE_HOST: ${{ secrets.DJANGO_DATABASE_HOST }}
+          envkey_DJANGO_DATABASE_PORT: ${{ secrets.DJANGO_DATABASE_PORT }}
+          envkey_DJANGO_SETTINGS_MODULE: "onlineBenevolent.settings.production"
+          envkey_DJANGO_SENTRY_DSN: ${{ secrets.DJANGO_SENTRY_DSN }}
+          file_name: .env
   build:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
@@ -24,7 +41,7 @@ jobs:
     steps:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
-      
+
     - name: Add backend remote origin
       run: git remote add heroku-backend https://heroku:${{ secrets.HEROKU_API_TOKEN }}@git.heroku.com/${{ secrets.HEROKU_BACKEND_APP_NAME }}.git
 

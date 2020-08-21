@@ -22,7 +22,7 @@ RUN groupadd --gid 1000 appuser && useradd -u 1000 -g appuser appuser
 
 # Install system dependencies
 RUN apt-get update && apt-get install gcc build-essential libpq-dev -y && \
-    apt-get install python3-dev python3-pip python3-venv python3-wheel -y && \
+    apt-get install python3-pip python3-venv python3-wheel -y && \
     python3 -m pip install wheel
 
 # set timezone to UTC

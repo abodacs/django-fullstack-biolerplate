@@ -4,9 +4,11 @@ import os
 from pathlib import PurePath
 from typing import Tuple
 
+from django.utils.translation import ugettext_lazy as ugt
+
 from decouple import AutoConfig
 from dj_database_url import parse as db_url
-from django.utils.translation import ugettext_lazy as ugt
+
 
 # Build paths inside the project like this: BASE_DIR.joinpath('some')
 # `pathlib` is better than writing: dirname(dirname(dirname(__file__)))
@@ -38,18 +40,18 @@ ALLOWED_HOSTS = ["localhost", "0.0.0.0", "127.0.0.1"]
 # APP CONFIGURATION
 # ------------------------------------------------------------------------------
 DJANGO_APPS: Tuple[str, ...] = (
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'django.contrib.admin',
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
+    "django.contrib.admin",
 )
 
 LOCAL_APPS: Tuple[str, ...] = (
-    'common',
-    'apps.users',
-    'apps.meta',
+    "common",
+    "apps.users",
+    "apps.meta",
 )
 
 THIRD_PARTY_APPS: Tuple[str, ...] = (
@@ -137,7 +139,3 @@ CELERY_TASK_SERIALIZER = "json"
 CELERY_RESULT_SERIALIZER = "json"
 CELERY_ACKS_LATE = True
 CELERY_TIMEZONE = TIME_ZONE
-
-# Sentry
-SENTRY_DSN = config("SENTRY_DSN", default="")
-# COMMIT_SHA = config("HEROKU_SLUG_COMMIT", default="")

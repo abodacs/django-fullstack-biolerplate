@@ -2,11 +2,12 @@ import sentry_sdk
 from decouple import Csv
 from sentry_sdk.integrations.django import DjangoIntegration
 
-from .base import *  # noqa
+from .base import *  # noqa: F403
+
 
 DEBUG = False
 
-SECRET_KEY = config("SECRET_KEY")
+SECRET_KEY = config("DJANGO_SECRET_KEY")
 
 DATABASES = {
     "default": config("DATABASE_URL", cast=db_url),
@@ -74,7 +75,7 @@ LOGGING = {
         },
     },
     "handlers": {
-        "null": {"class": "logging.NullHandler", },
+        "null": {"class": "logging.NullHandler",},
         "mail_admins": {
             "level": "ERROR",
             "class": "django.utils.log.AdminEmailHandler",
@@ -89,8 +90,8 @@ LOGGING = {
     },
     "loggers": {
         "": {"handlers": ["console"], "level": "INFO"},
-        "django.security.DisallowedHost": {"handlers": ["null"], "propagate": False, },
-        "django.request": {"handlers": ["mail_admins"], "level": "ERROR", "propagate": True, },
+        "django.security.DisallowedHost": {"handlers": ["null"], "propagate": False,},
+        "django.request": {"handlers": ["mail_admins"], "level": "ERROR", "propagate": True,},
         "log_request_id.middleware": {
             "handlers": ["console"],
             "level": "DEBUG",
@@ -99,9 +100,14 @@ LOGGING = {
     },
 }
 
-JS_REVERSE_EXCLUDE_NAMESPACES = ["admin"]
-
 # Sentry
-sentry_sdk.init(
-    dsn=SENTRY_DSN, integrations=[DjangoIntegration()],
-)
+SENTRY_DSN = config("DJANGO_SENTRY_DSN", default="")
+# COMMIT_SHA = config("HEROKU_SLUG_COMMIT", default="")
+if SENTRY_DSN:
+    sentry_sdk.init(
+        dsn=SENTRY_DSN,
+        integrations=[DjangoIntegration()],
+        # If you wish to associate users to errors (assuming you are using
+        # django.contrib.auth) you may enable sending PII data.
+        send_default_pii=True,
+    )
