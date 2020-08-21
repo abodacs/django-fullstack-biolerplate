@@ -1,1 +1,1 @@
-web: gunicorn -k uvicorn.workers.UvicornH11Worker onlineBenevolent.asgi:application --timeout 120 --log-file -
+web: gunicorn onlineBenevolent.asgi:application --timeout 120 --bind 0.0.0.0:$PORT --log-file -

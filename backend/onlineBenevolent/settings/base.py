@@ -13,7 +13,7 @@ from dj_database_url import parse as db_url
 # Build paths inside the project like this: BASE_DIR.joinpath('some')
 # `pathlib` is better than writing: dirname(dirname(dirname(__file__)))
 # backend/
-BASE_DIR = PurePath(__file__).parent.parent.parent.parent
+BASE_DIR = PurePath(__file__).parent.parent.parent
 
 
 def base_dir_join(*args):
