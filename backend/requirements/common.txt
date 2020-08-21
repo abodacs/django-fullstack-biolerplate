@@ -4,7 +4,7 @@ uvicorn==0.11.8
 gunicorn==20.0.4
 celery[redis]==4.4
 pytz==2020.1
-whitenoise==4.1.2
+whitenoise==5.2.0
 
 # 12 Factor
 python-decouple==3.3
