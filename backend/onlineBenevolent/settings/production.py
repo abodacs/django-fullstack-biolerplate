@@ -48,7 +48,7 @@ X_FRAME_OPTIONS = "DENY"
 # CELERY_SEND_TASK_ERROR_EMAILS = True
 
 # Whitenoise
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+# STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 MIDDLEWARE.insert(  # insert WhiteNoiseMiddleware right after SecurityMiddleware
     MIDDLEWARE.index("django.middleware.security.SecurityMiddleware") + 1,
     "whitenoise.middleware.WhiteNoiseMiddleware",

@@ -36,6 +36,9 @@ class User(AbstractBaseUser, PermissionsMixin, IndexedTimeStampedModel):
     # Fields settings
     EMAIL_FIELD = "email"
     USERNAME_FIELD = "username"
+    REQUIRED_FIELDS = [
+        "username",
+    ]
 
     def get_full_name(self):
         return self.username
@@ -44,4 +47,4 @@ class User(AbstractBaseUser, PermissionsMixin, IndexedTimeStampedModel):
         return self.username
 
     def __str__(self):
-        return str(self.name or self.username)
+        return str(self.username or self.name or "")
