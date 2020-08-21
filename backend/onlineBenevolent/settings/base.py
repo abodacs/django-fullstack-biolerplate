@@ -126,7 +126,7 @@ LANGUAGES = (
     ("ar", ugt("Arabic")),
 )
 
-STATICFILES_DIRS = (base_dir_join("../frontend"),)
+STATICFILES_DIRS = (base_dir_join("static"),)
 
 # Celery
 CELERY_ACCEPT_CONTENT = ["json"]
