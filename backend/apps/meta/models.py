@@ -56,7 +56,7 @@ class Problem(IndexedTimeStampedModel):
         return self.name
 
 
-class Place(IndexedTimeStampedModel):
+class CaseType(IndexedTimeStampedModel):
     name = models.CharField(_("Name"), max_length=128)
     order = models.PositiveSmallIntegerField(
         verbose_name=_("order the field in the app"), default=1,
@@ -68,8 +68,27 @@ class Place(IndexedTimeStampedModel):
             "name",
         )
         app_label = "meta"
-        verbose_name = _("Place")
-        verbose_name_plural = _("Places")
+        verbose_name = _("CaseType")
+        verbose_name_plural = _("CaseTypes")
+
+    def __str__(self):
+        return self.name
+
+
+class Area(IndexedTimeStampedModel):
+    name = models.CharField(_("Name"), max_length=128)
+    order = models.PositiveSmallIntegerField(
+        verbose_name=_("order the field in the app"), default=1,
+    )
+
+    class Meta:
+        ordering = (
+            "order",
+            "name",
+        )
+        app_label = "meta"
+        verbose_name = _("Area")
+        verbose_name_plural = _("Area")
 
     def __str__(self):
         return self.name

@@ -31,7 +31,7 @@ down:
 
 
 psql:
-	docker-compose -f docker-compose-dev.yml run --rm postgres bash
+	docker-compose -f docker-compose-dev.yml run --rm postgres psql -U $POSTGRES_USER $POSTGRES_DB
 
 install-pre-commit: install-test-requirements
 	pre-commit install --install-hooks

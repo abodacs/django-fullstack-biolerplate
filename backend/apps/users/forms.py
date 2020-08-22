@@ -3,6 +3,8 @@ from django.contrib.auth import forms, get_user_model, password_validation
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 
+from .models import Envoy
+
 
 User = get_user_model()
 
@@ -10,6 +12,12 @@ User = get_user_model()
 class UserChangeForm(forms.UserChangeForm):
     class Meta(forms.UserChangeForm.Meta):
         model = User
+
+
+class EnvoyChangeForm(forms.UserChangeForm):
+    class Meta(forms.UserChangeForm.Meta):
+        model = Envoy
+        fields = "__all__"
 
 
 class UserCreationForm(django_forms.ModelForm):
@@ -22,8 +30,6 @@ class UserCreationForm(django_forms.ModelForm):
         "password_mismatch": _("The two password fields didn’t match."),
         "duplicate_username": _("This username has already been taken."),
     }
-    name = django_forms.CharField(label=_("Name"), min_length=2,)
-    type = django_forms.ChoiceField(label=_("Type"), choices=User.Types.choices,)
     password1 = django_forms.CharField(
         label=_("Password"),
         strip=False,

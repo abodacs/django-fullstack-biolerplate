@@ -16,9 +16,11 @@ class User(AbstractBaseUser, PermissionsMixin, IndexedTimeStampedModel):
     type = models.CharField(_("Type"), max_length=50, choices=Types.choices, default=base_type)
     username = models.CharField(max_length=64, unique=True)
     name = models.CharField(verbose_name="name", max_length=255, default="name")
-    is_staff = models.BooleanField(
-        default=False, help_text=_("Designates whether the user can log into this admin " "site.")
+    mobile = models.CharField(_("Mobile"), max_length=32, blank=True, null=True)
+    area_in_charge = models.ForeignKey(
+        "meta.Area", verbose_name=_("Area in Charge"), on_delete=models.CASCADE, null=True
     )
+    is_staff = models.BooleanField(default=False, help_text=_(""))
     is_active = models.BooleanField(
         default=True,
         help_text=_(
@@ -36,9 +38,6 @@ class User(AbstractBaseUser, PermissionsMixin, IndexedTimeStampedModel):
     # Fields settings
     EMAIL_FIELD = "email"
     USERNAME_FIELD = "username"
-    REQUIRED_FIELDS = [
-        "username",
-    ]
 
     def get_full_name(self):
         return self.username
@@ -48,3 +47,16 @@ class User(AbstractBaseUser, PermissionsMixin, IndexedTimeStampedModel):
 
     def __str__(self):
         return str(self.username or self.name or "")
+
+
+class EnvoyManager(models.Manager):
+    def get_queryset(self, *args, **kwargs):
+        return super().get_queryset(*args, **kwargs).filter(type=User.Types.ENVOY)
+
+
+class Envoy(User):
+    base_type = User.Types.ENVOY
+    objects = EnvoyManager()
+
+    class Meta:
+        proxy = True
