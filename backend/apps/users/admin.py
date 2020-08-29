@@ -1,8 +1,11 @@
 from django.contrib import admin
 from django.contrib.auth import admin as auth_admin
 from django.contrib.auth import get_user_model
+from django.urls import reverse
+from django.utils.html import format_html, urlencode
 from django.utils.translation import ugettext_lazy as _
 
+from apps.projects.models import Case
 from apps.users.forms import EnvoyChangeForm, UserChangeForm, UserCreationForm
 
 from .models import Envoy
@@ -49,5 +52,13 @@ class EnvoyAdmin(auth_admin.UserAdmin):
         "name",
         "type",
         "mobile",
+        "show_cases_number",
     ]
     search_fields = ["name"]
+
+    def show_cases_number(self, obj):
+        url = reverse("admin:projects_case_changelist") + "?" + urlencode({"envoy_id": f"{obj.id}"})
+        count = Case.objects.filter(envoy=obj).only("id").count()
+        return format_html('<a href="{}">{} Cases</a>', url, count)
+
+    show_cases_number.short_description = _("Cases Number")

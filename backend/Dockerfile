@@ -20,10 +20,16 @@ RUN mkdir -p $APP_HOME
 # create the app user
 RUN groupadd --gid 1000 appuser && useradd -u 1000 -g appuser appuser
 
-# Install system dependencies
-RUN apt-get update && apt-get install gcc build-essential libpq-dev -y && \
-    apt-get install python3-pip python3-venv python3-wheel -y && \
-    python3 -m pip install wheel
+RUN apt-get update \
+  # dependencies for building Python packages
+  && apt-get install -y gcc build-essential \
+  && apt-get install -y python3-pip python3-wheel \
+  # psycopg2 dependencies
+  && apt-get install -y libpq-dev \
+  # Translations dependencies
+  && apt-get install -y gettext \
+  # Install system dependencies
+  && python3 -m pip install wheel
 
 # set timezone to UTC
 RUN ln -sf /usr/share/zoneinfo/Etc/UTC /etc/localtime
@@ -42,6 +48,8 @@ RUN python3 -m pip install --default-timeout=100 -r /requirements/${ENVIRONMENT}
 
 # Clean the house
 RUN apt-get purge libpq-dev -y && apt-get autoremove -y && \
+    # cleaning up unused files
+    apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false && \
     rm -fr /var/lib/apt/lists/{apt,dpkg,cache,log} /tmp/* /var/tmp/*
 
 COPY backend/start.sh /usr/local/bin/

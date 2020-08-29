@@ -62,4 +62,4 @@ class Case(IndexedTimeStampedModel):
         verbose_name_plural = _("Cases")
 
     def __str__(self):
-        return self.name or "Case"
+        return f"{self.name}, {self.famous_name}"

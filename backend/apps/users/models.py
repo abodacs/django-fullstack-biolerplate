@@ -17,10 +17,10 @@ class User(AbstractBaseUser, PermissionsMixin, IndexedTimeStampedModel):
     username = models.CharField(max_length=64, unique=True)
     name = models.CharField(verbose_name="name", max_length=255, default="name")
     mobile = models.CharField(_("Mobile"), max_length=32, blank=True, null=True)
-    area_in_charge = models.ForeignKey(
-        "meta.Area", verbose_name=_("Area in Charge"), on_delete=models.CASCADE, null=True
+    areas_in_charge = models.ManyToManyField(
+        "meta.Area", verbose_name=_("Area in Charge"), related_name="envoy_areas_in_charge"
     )
-    is_staff = models.BooleanField(default=False, help_text=_(""))
+    is_staff = models.BooleanField(default=False, help_text=_("Staff"))
     is_active = models.BooleanField(
         default=True,
         help_text=_(

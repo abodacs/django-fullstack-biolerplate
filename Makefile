@@ -22,12 +22,15 @@ makemigrations:
 migrate:
 	docker-compose -f docker-compose-dev.yml  run --rm backend python manage.py migrate $(filter-out $@,$(MAKECMDGOALS))
 
+check:
+	docker-compose -f docker-compose-dev.yml  run --rm backend python3 manage.py check --deploy --settings=onlineBenevolent.settings.production
 
 logs:
 	COMPOSE_HTTP_TIMEOUT=200 docker-compose -f docker-compose-dev.yml logs -f --tail=70 $(filter-out $@,$(MAKECMDGOALS))
 
 down:
 	COMPOSE_HTTP_TIMEOUT=200 docker-compose -f docker-compose-dev.yml down
+
 
 
 psql:

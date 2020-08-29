@@ -1,0 +1,227 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-08-29 19:56+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
+"&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+
+#: apps/meta/models.py:9 apps/meta/models.py:41 apps/meta/models.py:60
+#: apps/meta/models.py:79 apps/projects/models.py:39
+msgid "Name"
+msgstr "الاسم"
+
+#: apps/meta/models.py:10
+msgid "Slug"
+msgstr ""
+
+#: apps/meta/models.py:18
+msgid "Seasonal - Occur  each Year."
+msgstr "موسمى يتكرر كل عام"
+
+#: apps/meta/models.py:19
+msgid "Seasonal - Occur on particular season of the year."
+msgstr "موسمى"
+
+#: apps/meta/models.py:20
+msgid "Monthly - repeated at each Hijri Monthly"
+msgstr "كل شهر هجرى"
+
+#: apps/meta/models.py:21
+msgid "Monthly - repeated Monthly"
+msgstr "كل شهر"
+
+#: apps/meta/models.py:23
+msgid "Status"
+msgstr "الحالة"
+
+#: apps/meta/models.py:33
+msgid "ProjectClass"
+msgstr "نوع المشروع"
+
+#: apps/meta/models.py:34
+msgid "ProjectClasses"
+msgstr ""
+
+#: apps/meta/models.py:43 apps/meta/models.py:62 apps/meta/models.py:81
+msgid "order the field in the app"
+msgstr "ترتيب الظهور"
+
+#: apps/meta/models.py:52
+msgid "Problem"
+msgstr "المشكلة"
+
+#: apps/meta/models.py:53
+msgid "Problems"
+msgstr "مشاكل"
+
+#: apps/meta/models.py:71
+msgid "CaseType"
+msgstr "نوع الحالة"
+
+#: apps/meta/models.py:72
+msgid "CaseTypes"
+msgstr "أنواع الحاﻻت"
+
+#: apps/meta/models.py:90 apps/meta/models.py:91
+msgid "Area"
+msgstr "المنطقة"
+
+#: apps/projects/models.py:10
+msgid "Project title"
+msgstr "عنوان المشروع"
+
+#: apps/projects/models.py:12
+msgid "Project Class"
+msgstr ""
+
+#: apps/projects/models.py:16
+msgid "Start Date"
+msgstr "تاريخ البداية"
+
+#: apps/projects/models.py:17
+msgid "End Date"
+msgstr "تاريخ النهاية"
+
+#: apps/projects/models.py:19
+msgid "Project description"
+msgstr "وصف المشروع"
+
+#: apps/projects/models.py:22
+msgid "Long description for the Project"
+msgstr "وصف مطول للمشروع"
+
+#: apps/projects/models.py:27
+msgid "Project start date can be less than end date."
+msgstr "تحقق من تاريخ البداية"
+
+#: apps/projects/models.py:31
+msgid "Project"
+msgstr "المشروع"
+
+#: apps/projects/models.py:32
+msgid "Projects"
+msgstr "المشاريع"
+
+#: apps/projects/models.py:40
+msgid "Code"
+msgstr "كود"
+
+#: apps/projects/models.py:41
+msgid "Famous Name"
+msgstr "اسم الشهرة"
+
+#: apps/projects/models.py:42 apps/users/models.py:19
+msgid "Mobile"
+msgstr "الموبايل"
+
+#: apps/projects/models.py:43
+msgid "Address"
+msgstr "العنوان"
+
+#: apps/projects/models.py:45
+msgid "National ID"
+msgstr "الرقم القومى"
+
+#: apps/projects/models.py:48
+msgid "Description"
+msgstr "الوصف"
+
+#: apps/projects/models.py:51
+msgid "Long description for the Case"
+msgstr "وصف مطول"
+
+#: apps/projects/models.py:56
+msgid "Case Envoy"
+msgstr "مندوب الحالة"
+
+#: apps/projects/models.py:61
+msgid "Case"
+msgstr "الحالة"
+
+#: apps/projects/models.py:62
+msgid "Cases"
+msgstr "حاﻻت"
+
+#: apps/users/admin.py:20 apps/users/admin.py:43
+msgid "Personal info"
+msgstr "معلومات"
+
+#: apps/users/admin.py:21 apps/users/admin.py:44
+msgid "Permissions"
+msgstr "التصاريح"
+
+#: apps/users/admin.py:22 apps/users/admin.py:45
+msgid "Important dates"
+msgstr "تواريخ مهمه"
+
+#: apps/users/admin.py:65
+msgid "Cases Number"
+msgstr "رقم الحالة"
+
+#: apps/users/forms.py:30
+msgid "The two password fields didn’t match."
+msgstr "ﻻبد من توافق كلمة المرور"
+
+#: apps/users/forms.py:31
+msgid "This username has already been taken."
+msgstr "اسم المستخدم محجوز"
+
+#: apps/users/forms.py:34
+msgid "Password"
+msgstr "كلمة المرور"
+
+#: apps/users/forms.py:40
+msgid "Password confirmation"
+msgstr "تأكيد كلمة المرور"
+
+#: apps/users/forms.py:43
+msgid "Enter the same password as before, for verification."
+msgstr "ﻻبد من تطابق كلمتى المرور"
+
+#: apps/users/models.py:12
+msgid "Manager"
+msgstr "المسؤل"
+
+#: apps/users/models.py:13
+msgid "Envoy"
+msgstr "مندوب"
+
+#: apps/users/models.py:16
+msgid "Type"
+msgstr "نوع"
+
+#: apps/users/models.py:21
+msgid "Area in Charge"
+msgstr "المنظقة"
+
+#: apps/users/models.py:24
+msgid "Staff"
+msgstr ""
+
+#: apps/users/models.py:28
+msgid ""
+"Designates whether this user should be treated as active. Unselect this "
+"instead of deleting accounts."
+msgstr ""
+
+#: common/models.py:8
+msgid "created"
+msgstr ""
+
+#: common/models.py:9
+msgid "modified"
+msgstr ""
