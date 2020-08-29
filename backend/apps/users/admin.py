@@ -43,7 +43,7 @@ class EnvoyAdmin(auth_admin.UserAdmin):
     list_filter = ("is_active",)
     fieldsets = (
         (None, {"fields": ("username", "password")}),
-        (_("Personal info"), {"fields": ("name", "type", "area_in_charge", "mobile",)}),
+        (_("Personal info"), {"fields": ("name", "type", "areas_in_charge", "mobile",)}),
         (_("Permissions"), {"fields": ("is_active",)}),
         (_("Important dates"), {"fields": ("last_login",)}),
     )
