@@ -5,6 +5,7 @@ gunicorn==20.0.4
 celery[redis]==4.4
 pytz==2020.1
 whitenoise==5.2.0
+python-gettext==4.0
 
 # 12 Factor
 python-decouple==3.3
