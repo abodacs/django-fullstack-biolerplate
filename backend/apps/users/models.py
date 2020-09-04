@@ -40,7 +40,7 @@ class User(AbstractBaseUser, PermissionsMixin, IndexedTimeStampedModel):
     USERNAME_FIELD = "username"
 
     def get_full_name(self):
-        return self.username
+        return self.name
 
     def get_short_name(self):
         return self.username
