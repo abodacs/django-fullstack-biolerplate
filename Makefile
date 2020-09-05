@@ -16,6 +16,9 @@ run:
 bash:
 	docker-compose  -f docker-compose-dev.yml run --rm backend bash
 
+test:
+	docker-compose  -f docker-compose-dev.yml run --rm backend python manage.py test --debug-mode $(filter-out $@,$(MAKECMDGOALS))
+
 makemigrations:
 	docker-compose -f docker-compose-dev.yml  run --rm backend python manage.py makemigrations $(filter-out $@,$(MAKECMDGOALS))
 
@@ -31,7 +34,8 @@ logs:
 down:
 	COMPOSE_HTTP_TIMEOUT=200 docker-compose -f docker-compose-dev.yml down
 
-
+generate_swagger:
+	docker-compose -f docker-compose-dev.yml  run --rm backend python manage.py generate_swagger
 
 psql:
 	docker-compose -f docker-compose-dev.yml run --rm postgres psql -U $POSTGRES_USER $POSTGRES_DB

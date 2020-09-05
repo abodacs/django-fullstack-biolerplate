@@ -28,7 +28,7 @@ class UserViewSet(viewsets.ModelViewSet):
         instance.save()
 
     @action(methods=["GET"], detail=False)
-    def profile(self, request):
+    def me(self, request):
         if request.user.is_authenticated:
             serializer = self.serializer_class(request.user)
             return Response(status=status.HTTP_200_OK, data=serializer.data)

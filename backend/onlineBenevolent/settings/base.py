@@ -51,7 +51,7 @@ LOCAL_APPS: Tuple[str, ...] = (
 )
 
 THIRD_PARTY_APPS: Tuple[str, ...] = (
-    # 'rest_framework',
+    "rest_framework",
     # 'django_extensions',
 )
 
@@ -98,6 +98,19 @@ AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",},
 ]
 
+# DJANGO REST FRAMEWORK
+# ------------------------------------------------------------------------------
+
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework.authentication.BasicAuthentication",
+        "rest_framework.authentication.TokenAuthentication",
+    ),
+    "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    "PAGE_SIZE": 20,
+}
+
 # Email
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 
@@ -129,6 +142,23 @@ LANGUAGES = (
 )
 
 STATICFILES_DIRS = (base_dir_join("static"),)
+
+if DEBUG:
+    REST_FRAMEWORK["DEFAULT_AUTHENTICATION_CLASSES"] = (
+        "rest_framework.authentication.BasicAuthentication",
+        "rest_framework.authentication.TokenAuthentication",
+    )
+    #
+    INSTALLED_APPS += ("drf_yasg",)
+
+    # drf_yasg
+    SWAGGER_SETTINGS = {
+        "DEFAULT_INFO": "onlineBenevolent.urls.api_info",
+        "REFETCH_SCHEMA_WITH_AUTH": True,
+        "SECURITY_DEFINITIONS": {
+            "api_key": {"type": "apiKey", "in": "header", "name": "Authorization"}
+        },
+    }
 
 # Celery
 CELERY_ACCEPT_CONTENT = ["json"]

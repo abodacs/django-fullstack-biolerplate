@@ -46,7 +46,7 @@ class User(AbstractBaseUser, PermissionsMixin, IndexedTimeStampedModel):
         return self.username
 
     def __str__(self):
-        return str(self.username or self.name or "")
+        return self.username
 
 
 class EnvoyManager(models.Manager):
