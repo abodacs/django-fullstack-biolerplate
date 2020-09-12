@@ -53,7 +53,10 @@ class Case(IndexedTimeStampedModel):
     types = models.ManyToManyField("meta.CaseType", related_name="case_types")
     problems = models.ManyToManyField("meta.Problem", related_name="case_problems")
     envoy = models.ForeignKey(
-        settings.AUTH_USER_MODEL, verbose_name=_("Case Envoy"), on_delete=models.CASCADE,
+        settings.AUTH_USER_MODEL,
+        verbose_name=_("Case Envoy"),
+        on_delete=models.CASCADE,
+        related_name="cases",
     )
 
     class Meta:

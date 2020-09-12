@@ -36,13 +36,13 @@ class User(AbstractBaseUser, PermissionsMixin, IndexedTimeStampedModel):
         verbose_name_plural = "Users"
 
     # Fields settings
-    EMAIL_FIELD = "email"
     USERNAME_FIELD = "username"
 
     def get_full_name(self):
         return self.name
 
-    def get_short_name(self):
+    @property
+    def short_name(self):
         return self.username
 
     def __str__(self):

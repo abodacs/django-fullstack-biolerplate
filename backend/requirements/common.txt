@@ -9,6 +9,8 @@ python-gettext==4.0
 
 # API packages
 djangorestframework==3.11
+djangorestframework-simplejwt==4.4.0
+django-cors-headers==3.5.0
 
 # 12 Factor
 python-decouple==3.3

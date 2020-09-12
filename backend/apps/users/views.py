@@ -1,16 +1,23 @@
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import get_user_model
 
-from apps.users.models import User
-from apps.users.serializers import UserSerializer, UserWriteSerializer
-from rest_framework import status, viewsets
+from apps.users.serializers import LogInSerializer, UserSerializer, UserWriteSerializer
+from rest_framework import parsers, status, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from rest_framework_simplejwt.views import TokenObtainPairView
+
+
+User = get_user_model()
 
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    permission_classes = []
+    parser_classes = (
+        parsers.FormParser,
+        parsers.MultiPartParser,
+        parsers.JSONParser,
+    )
 
     def get_serializer_class(self):
         if self.action in ["list", "retrieve"]:
@@ -29,18 +36,11 @@ class UserViewSet(viewsets.ModelViewSet):
 
     @action(methods=["GET"], detail=False)
     def me(self, request):
-        if request.user.is_authenticated:
+        if request.user.is_authenticated and request.user.is_active:
             serializer = self.serializer_class(request.user)
             return Response(status=status.HTTP_200_OK, data=serializer.data)
         return Response(status=status.HTTP_401_UNAUTHORIZED)
 
-    @action(methods=["POST"], detail=False)
-    def login(self, request, format=None):
-        username = request.data.get("username", None)
-        password = request.data.get("password", None)
-        user = authenticate(username=username, password=password)
 
-        if user:
-            login(request, user)
-            return Response(status=status.HTTP_200_OK)
-        return Response(status=status.HTTP_404_NOT_FOUND)
+class LogInView(TokenObtainPairView):
+    serializer_class = LogInSerializer

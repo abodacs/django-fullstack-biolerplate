@@ -1,6 +1,7 @@
 # https://docs.djangoproject.com/en/3.1/ref/settings/
 
 import os
+from datetime import timedelta
 from pathlib import PurePath
 from typing import Tuple
 
@@ -51,9 +52,22 @@ LOCAL_APPS: Tuple[str, ...] = (
 )
 
 THIRD_PARTY_APPS: Tuple[str, ...] = (
+    "corsheaders",
     "rest_framework",
+    "rest_framework_simplejwt.token_blacklist",
     # 'django_extensions',
 )
+# CORS
+# ------------------------------------------------------------------------------
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True  # to accept cookies via ajax request
+CORS_ORIGIN_WHITELIST = [
+    # the domain for front-end app(you can add more than 1)
+    "http://localhost:3000",
+]
+CORS_ALLOWED_ORIGIN_REGEXES = [
+    r"^https://\w+\.heroku\.com$",
+]
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -63,6 +77,7 @@ AUTH_USER_MODEL = "users.User"
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.locale.LocaleMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -103,12 +118,23 @@ AUTH_PASSWORD_VALIDATORS = [
 
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
-        "rest_framework.authentication.BasicAuthentication",
-        "rest_framework.authentication.TokenAuthentication",
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
     ),
     "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
     "PAGE_SIZE": 20,
+}
+
+SIMPLE_JWT_SIGNING_KEY = config("SIMPLE_JWT_SIGNING_KEY", cast=str, default=SECRET_KEY)
+
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(days=1),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
+    "SIGNING_KEY": SIMPLE_JWT_SIGNING_KEY,
+    "AUTH_HEADER_TYPES": ("Bearer",),
+    "USER_ID_CLAIM": "id",
+    "AUTH_TOKEN_CLASSES": ("rest_framework_simplejwt.tokens.AccessToken",),
+    "TOKEN_TYPE_CLAIM": "token_type",
 }
 
 # Email
@@ -144,11 +170,6 @@ LANGUAGES = (
 STATICFILES_DIRS = (base_dir_join("static"),)
 
 if DEBUG:
-    REST_FRAMEWORK["DEFAULT_AUTHENTICATION_CLASSES"] = (
-        "rest_framework.authentication.BasicAuthentication",
-        "rest_framework.authentication.TokenAuthentication",
-    )
-    #
     INSTALLED_APPS += ("drf_yasg",)
 
     # drf_yasg

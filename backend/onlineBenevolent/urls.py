@@ -1,10 +1,12 @@
 from django.conf import settings
 from django.conf.urls import include, url  # noqa
 from django.contrib import admin
-from django.contrib.auth import logout
 from django.urls import path
 
+from apps.users.views import LogInView
+from common import views
 from rest_framework.permissions import AllowAny
+from rest_framework_simplejwt import views as jwt_views
 
 from .api import api
 from .views import ping
@@ -16,12 +18,14 @@ def trigger_error(request):
 
 urlpatterns = [
     path("admin/", admin.site.urls, name="admin"),
-    path("logout/", logout, {"next_page": "/"}, name="logout"),
-    path("api/", include(api.urls)),
-    path("api-auth/", include("rest_framework.urls", namespace="rest_framework")),
+    path("logout/", views.LogoutView.as_view(), {"next_page": "/"}, name="logout"),
+    path("api/v1/", include(api.urls)),
+    path("api/log_in/", LogInView.as_view(), name="log_in"),
+    path("api/refresh/", jwt_views.TokenRefreshView.as_view(), name="token_refresh"),
     path("ping/", ping, name="ping"),
     path("sentry-debug/", trigger_error),
 ]
+
 if settings.DEBUG:
     from drf_yasg.views import get_schema_view
     from drf_yasg import openapi

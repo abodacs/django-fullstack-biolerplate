@@ -16,6 +16,9 @@ DATABASES["default"]["ATOMIC_REQUESTS"] = True
 
 ALLOWED_HOSTS = config("ALLOWED_HOSTS", default=[], cast=Csv())
 
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_HTTPONLY = True
+
 STATIC_ROOT = base_dir_join("staticfiles")
 STATIC_URL = "/static/"
 

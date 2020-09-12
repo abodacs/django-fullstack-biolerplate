@@ -20,3 +20,4 @@ class EnvoyFactory(factory.django.DjangoModelFactory):
 
     username = factory.Faker("username")
     name = factory.Faker("name")
+    password = "test"
