@@ -42,3 +42,7 @@ safety
 # Tracking errors
 django-log-request-id
 sentry-sdk>=0.17.0,<0.18.0
+
+
+# Debugging tools
+drf-yasg==1.17
