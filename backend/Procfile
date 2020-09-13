@@ -1,2 +1,1 @@
-release: python3 manage.py migrate
 web: gunicorn -k uvicorn.workers.UvicornWorker onlineBenevolent.asgi:application --bind 0.0.0.0:$PORT --log-level debug
