@@ -49,6 +49,7 @@ LOCAL_APPS: Tuple[str, ...] = (
     "apps.users",
     "apps.meta",
     "apps.projects",
+    "apps.delivery",
 )
 
 THIRD_PARTY_APPS: Tuple[str, ...] = (

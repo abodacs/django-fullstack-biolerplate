@@ -9,4 +9,5 @@ api.trailing_slash = "/?"
 
 # Users API
 api.register(r"users", UserViewSet)
+# Case API
 api.register("cases", CaseViewSet, "cases")
