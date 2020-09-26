@@ -7,6 +7,7 @@ from typing import Tuple
 
 from django.utils.translation import ugettext_lazy as ugt
 
+from celery.schedules import crontab
 from decouple import config
 from dj_database_url import parse as db_url
 
@@ -170,17 +171,16 @@ LANGUAGES = (
 
 STATICFILES_DIRS = (base_dir_join("static"),)
 
-if DEBUG:
-    INSTALLED_APPS += ("drf_yasg",)
+INSTALLED_APPS += ("drf_yasg",)
 
-    # drf_yasg
-    SWAGGER_SETTINGS = {
-        "DEFAULT_INFO": "onlineBenevolent.urls.api_info",
-        "REFETCH_SCHEMA_WITH_AUTH": True,
-        "SECURITY_DEFINITIONS": {
-            "api_key": {"type": "apiKey", "in": "header", "name": "Authorization"}
-        },
-    }
+# drf_yasg
+SWAGGER_SETTINGS = {
+    "DEFAULT_INFO": "onlineBenevolent.urls.api_info",
+    "REFETCH_SCHEMA_WITH_AUTH": True,
+    "SECURITY_DEFINITIONS": {
+        "api_key": {"type": "apiKey", "in": "header", "name": "Authorization"}
+    },
+}
 
 # Celery
 CELERY_ACCEPT_CONTENT = ["json"]
@@ -188,3 +188,22 @@ CELERY_TASK_SERIALIZER = "json"
 CELERY_RESULT_SERIALIZER = "json"
 CELERY_ACKS_LATE = True
 CELERY_TIMEZONE = TIME_ZONE
+
+# Celery
+BROKER_HOST = config("RABBITMQ_HOST", default="rabbitmq")
+BROKER_USER = config("RABBITMQ_DEFAULT_USER", default="online_benevolent")
+BROKER_PASSWORD = config("RABBITMQ_DEFAULT_PASS", default="online_benevolent")
+BROKER_VHOST = config("RABBITMQ_DEFAULT_VHOST", default="online_benevolent")
+BROKER_URL = "amqp://{0}:{1}@{2}:5672".format(BROKER_USER, BROKER_PASSWORD, BROKER_HOST)
+CELERY_BROKER_URL = BROKER_URL
+CELERY_SEND_TASK_ERROR_EMAILS = True
+# CELERY_RESULT_BACKEND='djcelery.backends.database:DatabaseBackend',
+CELERY_RESULT_BACKEND = config("CELERY_BACKEND", "redis://redis:6379/0")
+
+CELERY_BEAT_SCHEDULE = {
+    "generate_delivery_patch": {
+        "task": "apps.delivery.tasks.task_process_periodically_add_patches",
+        "schedule": crontab(hour="4", minute=0),
+    },
+    "sample_task": {"task": "apps.delivery.tasks.sample_task", "schedule": crontab(minute="*/1"),},
+}

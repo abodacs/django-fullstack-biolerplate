@@ -24,11 +24,22 @@ services:
 
   broker:
     image: "rabbitmq:alpine"
+    hostname: rabbitmq
+    env_file: backend/.env
+    environment: &env
+      RABBITMQ_ERLANG_COOKIE: "SWQOKODSQALRPCLNMEQG"
+
     networks:
       - backend
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    expose:
+      - "5672"
 
-  result:
+  redis:
     image: "redis:alpine"
+    env_file: backend/.env
     networks:
       - backend
 
@@ -47,7 +58,50 @@ services:
     depends_on:
       - postgres
       - broker
-      - result
+    networks:
+      - backend
+
+  celery:
+    build:
+      dockerfile: backend/Dockerfile
+      context: .
+    command: ./start_celery.sh
+    env_file: backend/.env
+    volumes:
+      - ./backend:/home/app/web/backend/
+    depends_on:
+      - backend
+      - postgres
+      - broker
+      - redis
+    networks:
+      - backend
+
+  celery-beat:
+    build:
+      dockerfile: backend/Dockerfile
+      context: .
+    command: celery -A onlineBenevolent beat -s /home/celery/var/run/celerybeat-schedule -l info
+    env_file: backend/.env
+    volumes:
+      - ./backend:/home/app/web/backend/
+    depends_on:
+      - redis
+    networks:
+      - backend
+
+  dashboard:
+    build:
+      dockerfile: backend/Dockerfile
+      context: .
+    command: flower -A core --port=5555 --broker=redis://redis:6379/0
+    env_file: backend/.env
+    ports:
+      - 5555:5555
+    depends_on:
+      - backend
+      - redis
+      - celery
     networks:
       - backend
 

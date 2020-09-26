@@ -10,6 +10,10 @@ class ProjectAdmin(admin.ModelAdmin):
         "project_class",
     )
 
+    actions = [
+        "add_new_patches",
+    ]
+
     def get_queryset(self, request):
         qs = super(ProjectAdmin, self).get_queryset(request)
         qs = qs.select_related("project_class",)
@@ -17,6 +21,13 @@ class ProjectAdmin(admin.ModelAdmin):
         if ordering:
             qs = qs.order_by(*ordering)
         return qs
+
+    def add_new_patches(self, request, queryset):
+        from apps.delivery.services import get_patches
+
+        get_patches()
+
+    add_new_patches.short_description = "Add new patches"
 
 
 @admin.register(Case)

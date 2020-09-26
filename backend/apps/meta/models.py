@@ -8,19 +8,34 @@ from common.models import IndexedTimeStampedModel
 class ProjectClass(IndexedTimeStampedModel):
     name = models.CharField(_("Name"), max_length=128)
     slug = models.SlugField(_("Slug"), max_length=128, unique=True, editable=False,)
-    YEARLY, SEASONAL, MONTHLY, MonthlyHijri = (
+    YEARLY, SEASONAL, MONTHLY, MonthlyHijri, Daily = (
         "Yearly",
         "Seasonal",
         "Monthly",
         "Monthly-Hijri",
+        "Daily",
     )
     TYPE_CHOICES = (
         (YEARLY, _("Seasonal - Occur  each Year.")),
-        (SEASONAL, _("Seasonal - Occur on particular season of the year.")),
+        # (SEASONAL, _("Seasonal - Occur on particular season of the year.")),
         (MonthlyHijri, _("Monthly - repeated at each Hijri Monthly")),
         (MONTHLY, _("Monthly - repeated Monthly")),
+        (Daily, _("Daily - repeated Daily")),
     )
-    type = models.CharField(_("Status"), max_length=128, default=SEASONAL, choices=TYPE_CHOICES)
+    type = models.CharField(_("Status"), max_length=128, default=Daily, choices=TYPE_CHOICES)
+
+    @property
+    def check_every_num_days(self):
+        """convert type to num_days to check"""
+        # TODO: fix this naive solve
+        num_days = 0
+        if self.type == self.YEARLY:
+            num_days = 365
+        elif self.type == self.MONTHLY:
+            num_days = 30
+        elif self.type == self.MonthlyHijri:
+            num_days = 28
+        return num_days
 
     def save(self, *args, **kwargs):
         value = self.name

@@ -45,10 +45,6 @@ SECURE_CONTENT_TYPE_NOSNIFF = True
 SECURE_BROWSER_XSS_FILTER = True
 X_FRAME_OPTIONS = "DENY"
 
-# Celery
-# CELERY_BROKER_URL = config("REDIS_URL")
-# CELERY_RESULT_BACKEND = config("REDIS_URL")
-# CELERY_SEND_TASK_ERROR_EMAILS = True
 
 # Whitenoise
 # STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"

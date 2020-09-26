@@ -19,6 +19,12 @@ bash:
 test:
 	docker-compose  -f docker-compose-dev.yml run --rm backend python manage.py test --debug-mode $(filter-out $@,$(MAKECMDGOALS))
 
+urls:
+	docker-compose -f docker-compose-dev.yml run --rm backend python manage.py show_urls
+
+start_celery:
+	docker-compose -f docker-compose-dev.yml run --rm backend sh -c 'start_celery'
+
 makemigrations:
 	docker-compose -f docker-compose-dev.yml  run --rm backend python manage.py makemigrations $(filter-out $@,$(MAKECMDGOALS))
 

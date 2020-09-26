@@ -32,7 +32,9 @@ class Confirmation(IndexedTimeStampedModel):
     project = models.ForeignKey(
         "projects.Project", verbose_name=_("Project"), on_delete=models.CASCADE,
     )
-    case = models.ForeignKey("projects.Case", verbose_name=_("Case"), on_delete=models.CASCADE,)
+    case = models.ForeignKey(
+        "projects.Case", verbose_name=_("Case"), on_delete=models.CASCADE, db_index=False
+    )
     envoy = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         verbose_name=_("Case Envoy"),
@@ -40,7 +42,9 @@ class Confirmation(IndexedTimeStampedModel):
         related_name="confirmations",
     )
 
-    patch = models.ForeignKey("Patch", verbose_name=_("Patch"), on_delete=models.CASCADE,)
+    patch = models.ForeignKey(
+        "Patch", verbose_name=_("Patch"), on_delete=models.CASCADE, db_index=False
+    )
     delivered = models.BooleanField(verbose_name=_("Delivered?"), null=True)
 
     class Meta:
@@ -48,3 +52,4 @@ class Confirmation(IndexedTimeStampedModel):
         verbose_name = _("Confirmation")
         verbose_name_plural = _("Confirmations")
         ordering = ["delivered"]
+        index_together = ("case", "patch")

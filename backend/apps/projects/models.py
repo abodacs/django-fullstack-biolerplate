@@ -1,9 +1,28 @@
+import datetime
+
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.db import models
+from django.db.models import Q
 from django.utils.translation import ugettext_lazy as _
 
 from common.models import IndexedTimeStampedModel
+
+
+class ProjectQueryset(models.QuerySet):
+    def active(self, date=None):
+        if date is None:
+            date = datetime.date.today()
+        return self.filter(Q(end_date__isnull=True) | Q(end_date__gte=date), start_date__lte=date,)
+
+
+# Model manager
+class ProjectManager(models.Manager):
+    def get_queryset(self):
+        return ProjectQueryset(self.model, using=self._db)
+
+    def active(self):
+        return self.get_queryset().active()
 
 
 class Project(IndexedTimeStampedModel):
@@ -21,6 +40,7 @@ class Project(IndexedTimeStampedModel):
         null=False,
         help_text=_("Long description for the Project"),
     )
+    objects = ProjectManager()
 
     def clean(self):
         if self.end_date and self.start_date and self.end_date < self.start_date:

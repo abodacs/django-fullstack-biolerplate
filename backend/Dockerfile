@@ -15,7 +15,7 @@ COPY backend/requirements/ /requirements/
 
 # install python dependencies
 RUN python3 -m pip install --upgrade pip
-RUN python3 -m pip install --default-timeout=100 -r /requirements/${ENVIRONMENT}.txt
+RUN python3 -m pip install --use-feature=2020-resolver --default-timeout=100 -r /requirements/${ENVIRONMENT}.txt
 
 ### Final image
 FROM python:3.8-slim
@@ -60,10 +60,11 @@ RUN apt-get purge libpq-dev -y && apt-get autoremove -y && \
     rm -fr /var/lib/apt/lists/{apt,dpkg,cache,log} /tmp/* /var/tmp/*
 
 COPY backend/start.sh /usr/local/bin/
+COPY backend/start_celery.sh /usr/local/bin/
 COPY backend/entrypoint.sh /usr/local/bin/
 
-
 RUN chmod +x /usr/local/bin/start.sh && \
+    chmod +x /usr/local/bin/start_celery.sh&& \
     chmod +x /usr/local/bin/entrypoint.sh
 
 EXPOSE 8001
