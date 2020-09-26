@@ -7,7 +7,7 @@ from rest_framework.test import APITestCase
 from .factories import CaseFactory
 
 
-class CategoryTestCase(APITestCase):
+class CaseTestCase(APITestCase):
     @classmethod
     def setUpTestData(cls):
 

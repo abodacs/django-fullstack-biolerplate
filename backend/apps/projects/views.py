@@ -5,8 +5,6 @@ from .serializers import CaseInfoSerializer, CaseSerializer
 
 
 # Case Viewset
-
-
 class CaseViewSet(viewsets.ModelViewSet):
     queryset = Case.objects.prefetch_related("types", "problems").all()
 
