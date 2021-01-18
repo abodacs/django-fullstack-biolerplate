@@ -183,7 +183,7 @@ SWAGGER_SETTINGS = {
 }
 
 # Celery
-CELERY_ACCEPT_CONTENT = ["json"]
+CELERY_ACCEPT_CONTENT = ["json", "msgpack"]
 CELERY_TASK_SERIALIZER = "json"
 CELERY_RESULT_SERIALIZER = "json"
 CELERY_ACKS_LATE = True
@@ -195,6 +195,11 @@ BROKER_USER = config("RABBITMQ_DEFAULT_USER", default="online_benevolent")
 BROKER_PASSWORD = config("RABBITMQ_DEFAULT_PASS", default="online_benevolent")
 BROKER_VHOST = config("RABBITMQ_DEFAULT_VHOST", default="online_benevolent")
 BROKER_URL = "amqp://{0}:{1}@{2}:5672".format(BROKER_USER, BROKER_PASSWORD, BROKER_HOST)
+BROKER_TRANSPORT_OPTIONS = {
+    "max_connections": 2,
+}
+BROKER_POOL_LIMIT = None
+BROKER_CONNECTION_MAX_RETRIES = None
 CELERY_BROKER_URL = BROKER_URL
 CELERY_SEND_TASK_ERROR_EMAILS = True
 # CELERY_RESULT_BACKEND='djcelery.backends.database:DatabaseBackend',

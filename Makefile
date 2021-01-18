@@ -8,7 +8,10 @@ stop:
 	docker-compose -f docker-compose-dev.yml stop $(filter-out $@,$(MAKECMDGOALS))
 
 activate:
-	source $HOME/online_benevolent/bin/activate
+	source venv/bin/activate
+
+install-venv:
+	source venv/bin/activate && python3 -m pip install -r backend/requirements.txt
 
 run:
 	docker-compose -f docker-compose-dev.yml run --rm  $(filter-out $@,$(MAKECMDGOALS))
