@@ -1,3 +1,4 @@
+import django_heroku
 import sentry_sdk
 from decouple import Csv
 from sentry_sdk.integrations.django import DjangoIntegration
@@ -16,7 +17,6 @@ DATABASES["default"]["ATOMIC_REQUESTS"] = True
 
 ALLOWED_HOSTS = config("ALLOWED_HOSTS", default=[], cast=Csv())
 
-CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_HTTPONLY = True
 
 STATIC_ROOT = base_dir_join("staticfiles")
@@ -47,7 +47,8 @@ X_FRAME_OPTIONS = "DENY"
 
 
 # Whitenoise
-# STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+
 MIDDLEWARE.insert(  # insert WhiteNoiseMiddleware right after SecurityMiddleware
     MIDDLEWARE.index("django.middleware.security.SecurityMiddleware") + 1,
     "whitenoise.middleware.WhiteNoiseMiddleware",
@@ -111,3 +112,5 @@ if SENTRY_DSN:
         # django.contrib.auth) you may enable sending PII data.
         send_default_pii=True,
     )
+
+django_heroku.settings(locals())

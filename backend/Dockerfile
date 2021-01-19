@@ -15,7 +15,7 @@ COPY backend/requirements/ /requirements/
 
 # install python dependencies
 RUN python3 -m pip install --upgrade pip
-RUN python3 -m pip install --use-feature=2020-resolver --default-timeout=100 -r /requirements/${ENVIRONMENT}.txt
+RUN python3 -m pip install --default-timeout=100 -r /requirements/${ENVIRONMENT}.txt
 
 ### Final image
 FROM python:3.8-slim

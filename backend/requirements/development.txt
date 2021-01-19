@@ -1,7 +1,6 @@
 -r common.txt
 
 # Debugging tools
-drf-yasg==1.17
 ipdb==0.13.2
 ipython==7.17.0
 ptvsd==4.3.2
