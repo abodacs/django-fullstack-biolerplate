@@ -1,4 +1,4 @@
 release: python3 manage.py migrate --settings=onlineBenevolent.settings.production
-web: python manage.py collectstatic --no-input; gunicorn -k uvicorn.workers.UvicornWorker onlineBenevolent.asgi:application --bind 0.0.0.0:$PORT --log-level debug
+web: python manage.py collectstatic --settings=onlineBenevolent.settings.production --no-input; gunicorn -k uvicorn.workers.UvicornWorker onlineBenevolent.asgi:application --bind 0.0.0.0:$PORT --log-level debug
 # worker: REMAP_SIGTERM=SIGQUIT celery -A onlineBenevolent.celery worker -B --loglevel=info --without-mingle --without-gossip --without-heartbeat
 # celery_beat: python manage.py --settings=onlineBenevolent.settings.production celery beat --loglevel=info
